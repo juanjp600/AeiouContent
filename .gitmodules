@@ -1,0 +1,3 @@
+[submodule "SpeakServer/Dependencies/SharpTalk/Submodule/SharpTalk"]
+	path = SpeakServer/Dependencies/SharpTalk/Submodule/SharpTalk
+	url = https://github.com/whatsecretproject/SharpTalk

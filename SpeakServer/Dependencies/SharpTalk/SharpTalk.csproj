@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Submodule\SharpTalk\Speak\**" />
+      <Compile Remove="Submodule\SharpTalk\SharpTalk\Properties\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Submodule\SharpTalk\Speak\**" />
+      <EmbeddedResource Remove="Submodule\SharpTalk\SharpTalk\Properties\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Submodule\SharpTalk\Speak\**" />
+      <None Remove="Submodule\SharpTalk\SharpTalk\Properties\**" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,13 @@
+# Visual Studio
+.vs/*
+
+# JetBrains
+.idea/*
+*.DotSettings.user
+
+# Build output
+*/bin/*
+*/obj/*
+
+# Dependencies
+*/Dependencies/*

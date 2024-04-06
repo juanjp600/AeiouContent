@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Description></Description>
+        <Version>0.1.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <PackageId>AeiouContent</PackageId>
+        <Authors>AeiouContent</Authors>
+        <Company>AeiouContent</Company>
+        <Product>AeiouContent</Product>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Assembly-CSharp">
+        <HintPath>Dependencies\Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="CWChat">
+        <HintPath>Dependencies\CWChat.dll</HintPath>
+      </Reference>
+      <Reference Include="Photon3Unity3D">
+        <HintPath>Dependencies\Photon3Unity3D.dll</HintPath>
+      </Reference>
+      <Reference Include="PhotonRealtime">
+        <HintPath>Dependencies\PhotonRealtime.dll</HintPath>
+      </Reference>
+      <Reference Include="PhotonUnityNetworking">
+        <HintPath>Dependencies\PhotonUnityNetworking.dll</HintPath>
+      </Reference>
+      <Reference Include="SteamAudioUnity">
+        <HintPath>Dependencies\SteamAudioUnity.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.TextMeshPro">
+        <HintPath>Dependencies\Unity.TextMeshPro.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine">
+        <HintPath>Dependencies\UnityEngine.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.AudioModule">
+        <HintPath>Dependencies\UnityEngine.AudioModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>Dependencies\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="Zorro.Core.Runtime">
+        <HintPath>Dependencies\Zorro.Core.Runtime.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="SpeakServer\Program.cs">
+        <Link>AeiouContentSpeak\Program.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="SpeakServer\ftalk_us.dic">
+        <Link>AeiouContentSpeak\ftalk_us.dic</Link>
+      </None>
+      <None Update="SpeakServer\FonixTalk.dll">
+        <Link>AeiouContentSpeak\FonixTalk.dll</Link>
+      </None>
+      <None Update="SpeakServer\.gitignore">
+        <Link>AeiouContentSpeak\.gitignore</Link>
+      </None>
+      <None Update="SpeakServer\App.config">
+        <Link>AeiouContentSpeak\App.config</Link>
+      </None>
+      <None Update="SpeakServer\build.bat">
+        <Link>AeiouContentSpeak\build.bat</Link>
+      </None>
+      <None Update="SpeakServer\ftalk_us.dll">
+        <Link>AeiouContentSpeak\ftalk_us.dll</Link>
+      </None>
+      <None Update="SpeakServer\SharpTalk.dll">
+        <Link>AeiouContentSpeak\SharpTalk.dll</Link>
+      </None>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="dotnet publish ../SpeakServer/SpeakServer.csproj -c Release --self-contained -r win-x86 /p:Platform=AnyCPU -o $(OutDir)" />
+    </Target>
+
+</Project>

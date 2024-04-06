@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeakServer", "SpeakServer\SpeakServer.csproj", "{C362F47C-26B8-4116-AB5D-A212F8C94A6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AeiouContent", "AeiouContent", "{3E1E2411-BEBD-496C-8E97-5F5DB233F958}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpeakServer", "SpeakServer", "{C5B28FB6-694A-4B22-8170-74800E619A30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{C3A0EF07-C844-490D-A694-957B3AEEA558}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTalk", "SpeakServer\Dependencies\SharpTalk\SharpTalk.csproj", "{32C89629-B217-4BE9-883F-7EEEECF70ED5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeiouContent", "AeiouContent\AeiouContent.csproj", "{B0313AF8-4100-45EA-899B-061C8FE5BF81}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C362F47C-26B8-4116-AB5D-A212F8C94A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C362F47C-26B8-4116-AB5D-A212F8C94A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C362F47C-26B8-4116-AB5D-A212F8C94A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C362F47C-26B8-4116-AB5D-A212F8C94A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32C89629-B217-4BE9-883F-7EEEECF70ED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C89629-B217-4BE9-883F-7EEEECF70ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32C89629-B217-4BE9-883F-7EEEECF70ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32C89629-B217-4BE9-883F-7EEEECF70ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0313AF8-4100-45EA-899B-061C8FE5BF81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0313AF8-4100-45EA-899B-061C8FE5BF81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0313AF8-4100-45EA-899B-061C8FE5BF81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0313AF8-4100-45EA-899B-061C8FE5BF81}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C362F47C-26B8-4116-AB5D-A212F8C94A6A} = {C5B28FB6-694A-4B22-8170-74800E619A30}
+		{C3A0EF07-C844-490D-A694-957B3AEEA558} = {C5B28FB6-694A-4B22-8170-74800E619A30}
+		{32C89629-B217-4BE9-883F-7EEEECF70ED5} = {C3A0EF07-C844-490D-A694-957B3AEEA558}
+		{B0313AF8-4100-45EA-899B-061C8FE5BF81} = {3E1E2411-BEBD-496C-8E97-5F5DB233F958}
+	EndGlobalSection
+EndGlobal
