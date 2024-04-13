@@ -31,9 +31,6 @@
       <Reference Include="PhotonUnityNetworking">
         <HintPath>Dependencies\PhotonUnityNetworking.dll</HintPath>
       </Reference>
-      <Reference Include="SteamAudioUnity">
-        <HintPath>Dependencies\SteamAudioUnity.dll</HintPath>
-      </Reference>
       <Reference Include="Unity.TextMeshPro">
         <HintPath>Dependencies\Unity.TextMeshPro.dll</HintPath>
       </Reference>
