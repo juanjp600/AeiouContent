@@ -12,31 +12,6 @@ namespace AeiouContent;
 sealed class SimpleChatHook
 {
     private const byte ChatMessageCode = 16;
-    
-    [HarmonyPatch(methodName: nameof(ChatNet.SendMessage))]
-    [HarmonyPrefix]
-    private static bool SendMessagePrefix(ref ChatNet __instance, MsgData msg)
-    {
-        var raiseEventOptions = new RaiseEventOptions
-        {
-            Receivers = ReceiverGroup.All
-        };
-        PhotonNetwork.RaiseEvent(
-            eventCode: ChatMessageCode,
-            eventContent: new object[]
-            {
-                msg.name,
-                msg.message,
-                msg.dead,
-                msg.hex,
-                // Backwards compatibility with AeiouContent 0.1.0,
-                // will remove this entire prefix at some point
-                PhotonNetwork.LocalPlayer.ActorNumber
-            },
-            raiseEventOptions: raiseEventOptions,
-            sendOptions: SendOptions.SendReliable);
-        return false;
-    }
 
     [HarmonyPatch(methodName: nameof(ChatNet.OnEvent))]
     [HarmonyPrefix]
