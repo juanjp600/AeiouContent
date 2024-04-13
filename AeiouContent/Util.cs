@@ -5,13 +5,13 @@ namespace AeiouContent;
 
 static class Util
 {
-    readonly static MethodInfo? getBodypartMethodInfo = typeof(PlayerRagdoll).GetMethod("GetBodypart", BindingFlags.Instance | BindingFlags.NonPublic);
+    static readonly MethodInfo? GetBodypartMethodInfo = typeof(PlayerRagdoll).GetMethod("GetBodypart", BindingFlags.Instance | BindingFlags.NonPublic);
 
     public static Bodypart? GetBodypart(Player? player, BodypartType type)
     {
         if (player is null) { return null; }
-        if (getBodypartMethodInfo is null) { return null; }
-        return getBodypartMethodInfo.Invoke(player.refs.ragdoll, [type]) as Bodypart;
+        if (GetBodypartMethodInfo is null) { return null; }
+        return GetBodypartMethodInfo.Invoke(player.refs.ragdoll, [type]) as Bodypart;
     }
 
     public static void GetTtsGameObjects(Player? player, out GameObject? sourceObject, out GameObject? ttsObject)
@@ -41,4 +41,7 @@ static class Util
 
         player.data.microphoneValue = aeiouTimeTracker.loudness;
     }
+
+    public static Vector3 GetVerticallyScaledPosition(Vector3 position)
+        => new(x: position.x, y: position.y / Plugin.TextVisibilityVerticalRangeScaling, z: position.z);
 }

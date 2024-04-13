@@ -9,11 +9,12 @@ public sealed class Plugin : BaseUnityPlugin
 {
     internal const string Guid = "AeiouContent";
     internal const string Name = "AeiouContent";
-    internal const string Version = "0.1.0";
+    internal const string Version = "0.2.0";
 
     public const string TtsGameObjectName = "AeiouContentGameObject";
     public const float MaxTtsAudibleDistance = 60f;
     public const float MaxTextVisibleDistance = 45f;
+    public const float TextVisibilityVerticalRangeScaling = 0.3f;
     public const float TtsVolumeBoost = 1.2f;
 
     private Harmony _harmony = null!;

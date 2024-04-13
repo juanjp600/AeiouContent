@@ -1,6 +1,6 @@
 # AeiouContent
 
-DECTalk in Content Warning.
+DECtalk text-to-speech in Content Warning.
 
 ![image](icon.png)
 

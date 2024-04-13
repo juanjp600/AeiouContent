@@ -31,7 +31,7 @@ namespace SpeakServer
                 bufferSize: 8192,
                 leaveOpen: true);
             using var binaryWriter = new BinaryWriter(output: outPipe, encoding: Encoding.UTF8, leaveOpen: true);
-            var tts = new FonixTalkEngine();
+            using var tts = new FonixTalkEngine();
 
             Console.WriteLine(value: "AeiouCompany SpeakServer: Connected!");
 
@@ -51,6 +51,7 @@ namespace SpeakServer
                 {
                     var line = streamReader.ReadLine() ?? "";
                     Console.WriteLine($"AeiouCompany SpeakServer: Incoming line \"{line}\"");
+                    
                     if (string.IsNullOrWhiteSpace(line))
                     {
                         binaryWriter.Write(value: (int)0);

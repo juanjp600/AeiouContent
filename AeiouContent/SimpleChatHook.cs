@@ -17,8 +17,7 @@ sealed class SimpleChatHook
     [HarmonyPrefix]
     private static bool SendMessagePrefix(ref ChatNet __instance, MsgData msg)
     {
-        var player = Player.localPlayer;
-        var val = new RaiseEventOptions
+        var raiseEventOptions = new RaiseEventOptions
         {
             Receivers = ReceiverGroup.All
         };
@@ -26,13 +25,15 @@ sealed class SimpleChatHook
             eventCode: ChatMessageCode,
             eventContent: new object[]
             {
-                $"{PhotonNetwork.LocalPlayer.NickName} ( {Player.localPlayer.refs.visor.visorFaceText.text} )",
+                msg.name,
                 msg.message,
                 msg.dead,
                 msg.hex,
+                // Backwards compatibility with AeiouContent 0.1.0,
+                // will remove this entire prefix at some point
                 PhotonNetwork.LocalPlayer.ActorNumber
             },
-            raiseEventOptions: val,
+            raiseEventOptions: raiseEventOptions,
             sendOptions: SendOptions.SendReliable);
         return false;
     }
@@ -43,36 +44,38 @@ sealed class SimpleChatHook
     {
         if (photonEvent.Code != ChatMessageCode) { return false; }
 
-        var array = (object[])photonEvent.CustomData;
-        if (array is not { Length: >= 5 }) { return false; }
-        var msg = new MsgData(array[0].ToString(), array[1].ToString(), (bool)array[2], array[3].ToString());
-        if (array[4] is not int actorNumber) { return false; }
-        Plugin.Instance.SelfLogger.LogMessage($"Message from {msg.name}: {msg.message}");
+        if (photonEvent.CustomData is not (object[] and [string name, string message, bool isDead, string faceColor, ..])) { return false; }
+        var msgData = new MsgData(name, message, isDead, faceColor);
+        var actorNumber = photonEvent.Sender;
+        Plugin.Instance.SelfLogger.LogMessage($"Message from {msgData.name}: {msgData.message}");
 
         var matchingPlayer = PlayerHandler.instance.players.FirstOrDefault(p => p.refs.view.Owner.ActorNumber == actorNumber);
-        if (matchingPlayer is null)
-        {
-            return false;
-        }
+        if (matchingPlayer is null) { return false; }
         if (!Player.localPlayer.data.dead && matchingPlayer.data.dead) { return false; }
+
+        msgData.name = $"{matchingPlayer.refs.view.Controller.NickName} ( {matchingPlayer.refs.visor.visorFaceText.text} )";
 
         var posMatching = Util.GetBodypart(matchingPlayer, BodypartType.Head)?.transform.position ?? Vector3.zero;
         var posSelf = Util.GetBodypart(Player.localPlayer, BodypartType.Head)?.transform.position ?? Vector3.zero;
-        var distance = Vector3.Distance(posMatching, posSelf);
 
-        Plugin.Instance.SelfLogger.LogInfo($"Distance from {matchingPlayer.refs.view.Controller.NickName}: {distance}");
-        if (distance > Plugin.MaxTtsAudibleDistance) { return false; }
-        Speak(msg, matchingPlayer);
+        var rawDistance = Vector3.Distance(
+            posMatching,
+            posSelf);
 
-        if (distance > Plugin.MaxTextVisibleDistance) { return false; }
-        __instance.AddNewMessage(msg);
+        Plugin.Instance.SelfLogger.LogDebug($"Distance from {matchingPlayer.refs.view.Controller.NickName}: {rawDistance}");
+        if (rawDistance <= Plugin.MaxTtsAudibleDistance)
+        {
+            Plugin.Instance.SpeakProcessOwner.Speak(msgData.message, matchingPlayer);
+        }
 
+        var verticallyScaledDistance = Vector3.Distance(
+            Util.GetVerticallyScaledPosition(posMatching),
+            Util.GetVerticallyScaledPosition(posSelf));
+        if (verticallyScaledDistance <= Plugin.MaxTextVisibleDistance)
+        {
+            __instance.AddNewMessage(msgData);
+        }
 
         return false;
-    }
-
-    private static void Speak(MsgData msg, Player player)
-    {
-        Plugin.Instance.SpeakProcessOwner.Speak(msg.message, player);
     }
 }

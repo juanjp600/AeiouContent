@@ -13,26 +13,26 @@ namespace AeiouContent;
 [HarmonyPatch(declaringType: typeof(RagdollHandler))]
 static class RagdollHandlerHook
 {
-    private readonly static GameObject?[] _audioSourceGameObjects = new GameObject[NumSources];
+    private static readonly GameObject?[] AudioSourceGameObjects = new GameObject[NumSources];
     private static int _lastUsedAudioSource = -1;
 
     private const int NumSources = 8;
     private const int MaxSeconds = 40;
     private const int Frequency = 11025;
     private const int MaxSamples = MaxSeconds * Frequency;
-    private readonly static float[] _uploadBuffer = new float[MaxSamples];
+    private static readonly float[] UploadBuffer = new float[MaxSamples];
 
     private static GameObject GetAudioSourceGameObject()
     {
-        _lastUsedAudioSource = (_lastUsedAudioSource + 1) % _audioSourceGameObjects.Length;
-        var audioSourceGameObject = _audioSourceGameObjects[_lastUsedAudioSource];
+        _lastUsedAudioSource = (_lastUsedAudioSource + 1) % AudioSourceGameObjects.Length;
+        var audioSourceGameObject = AudioSourceGameObjects[_lastUsedAudioSource];
         if (audioSourceGameObject != null) { return audioSourceGameObject; }
 
         audioSourceGameObject = new GameObject(Plugin.TtsGameObjectName);
         var audioSource = audioSourceGameObject.AddComponent<AudioSource>();
         audioSourceGameObject.AddComponent<SteamAudioSource>();
         audioSourceGameObject.AddComponent<AeiouTimeTracker>();
-        _audioSourceGameObjects[_lastUsedAudioSource] = audioSourceGameObject;
+        AudioSourceGameObjects[_lastUsedAudioSource] = audioSourceGameObject;
         audioSource.clip ??= AudioClip.Create(
             name: "AeiouClip",
             lengthSamples: MaxSamples,
@@ -55,31 +55,30 @@ static class RagdollHandlerHook
                 prevTtsGameObject.transform.parent = null;
                 var prevAudioSource = prevTtsGameObject.GetComponent<AudioSource>();
                 if (prevAudioSource != null) { prevAudioSource.Stop(); }
-                ttsGameObject = prevTtsGameObject.gameObject;
+                ttsGameObject = prevTtsGameObject;
             }
-
-            if (ttsGameObject == null)
+            else if (ttsGameObject == null)
             {
                 ttsGameObject = GetAudioSourceGameObject();
             }
-            Array.Clear(array: _uploadBuffer, index: 0, length: _uploadBuffer.Length);
+            Array.Clear(array: UploadBuffer, index: 0, length: UploadBuffer.Length);
             var audioSource = ttsGameObject.GetComponent<AudioSource>();
             var steamAudioSource = ttsGameObject.GetComponent<SteamAudioSource>();
             var aeiouTimeTracker = ttsGameObject.GetComponent<AeiouTimeTracker>();
             audioSource.Stop();
             audioSource
                 .clip
-                .SetData(data: _uploadBuffer, offsetSamples: 0);
-            for (int i = 0; i < Math.Min(audio.Data.Length / 2, _uploadBuffer.Length); i++)
+                .SetData(data: UploadBuffer, offsetSamples: 0);
+            for (int i = 0; i < Math.Min(audio.Data.Length / 2, UploadBuffer.Length); i++)
             {
                 ushort sample = (ushort)(audio.Data[i * 2] | (audio.Data[(i * 2) + 1] << 8));
-                _uploadBuffer[i] = Math.Clamp(
+                UploadBuffer[i] = Math.Clamp(
                     value: ((float)unchecked((short)sample) / (float)short.MaxValue) * Plugin.TtsVolumeBoost,
                     min: -1f,
                     max: 1f);
             }
 
-            var lengthSeconds = (float)Math.Min(audio.Data.Length / 2, _uploadBuffer.Length) / (float)Frequency;
+            var lengthSeconds = (float)Math.Min(audio.Data.Length / 2, UploadBuffer.Length) / (float)Frequency;
             aeiouTimeTracker.speakStopTime = Time.unscaledTime + lengthSeconds;
             aeiouTimeTracker.loudness = Mathf.Lerp(
                 a: 0.4f,
@@ -87,7 +86,7 @@ static class RagdollHandlerHook
                 t: Math.Min(1.0f, audio.MessageText.Count(c => c == '!' || char.IsUpper(c)) * 0.15f));
             audioSource
                 .clip
-                .SetData(data: _uploadBuffer, offsetSamples: 0);
+                .SetData(data: UploadBuffer, offsetSamples: 0);
             audioSource.outputAudioMixerGroup = SingletonAsset<MixerHolder>.Instance.voiceMixer.audioMixer.outputAudioMixerGroup;
             audioSource.rolloffMode = AudioRolloffMode.Linear;
             audioSource.minDistance = 10f;
