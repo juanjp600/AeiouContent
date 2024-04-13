@@ -2,8 +2,6 @@
 using CWChat;
 using ExitGames.Client.Photon;
 using HarmonyLib;
-using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 
 namespace AeiouContent;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using HarmonyLib;
-//using SteamAudio;
 using UnityEngine;
 using Zorro.Core;
 using Vector3 = UnityEngine.Vector3;
@@ -28,7 +27,6 @@ static class RagdollHandlerHook
 
         audioSourceGameObject = new GameObject(Plugin.TtsGameObjectName);
         var audioSource = audioSourceGameObject.AddComponent<AudioSource>();
-        //audioSourceGameObject.AddComponent<SteamAudioSource>();
         audioSourceGameObject.AddComponent<AeiouTimeTracker>();
         AudioSourceGameObjects[_lastUsedAudioSource] = audioSourceGameObject;
         audioSource.clip ??= AudioClip.Create(
@@ -92,10 +90,6 @@ static class RagdollHandlerHook
             audioSource.spatialize = audio.Player != Player.localPlayer && audio.Player is { data.dead: false };
             audioSource.spatialBlend = audio.Player != Player.localPlayer && audio.Player is { data.dead: false } ? 1f : 0f;
             audioSource.dopplerLevel = 0f;
-            /*steamAudioSource.occlusion = audio.Player is { data.dead: false } || Player.localPlayer is { data.dead: false };
-            steamAudioSource.reflections = audio.Player is { data.dead: false };
-            steamAudioSource.transmission = audio.Player is { data.dead: false };
-            steamAudioSource.distanceAttenuation = audio.Player is { data.dead: false };*/
             ttsGameObject.transform.parent = null;
 #if TEST_CAMERA_AS_SOURCE
             if (audio.Player == Player.localPlayer)

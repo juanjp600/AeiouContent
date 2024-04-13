@@ -2,12 +2,12 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <Description>DECtalk in Content Warning.</Description>
+        <Description>DECtalk text-to-speech in Content Warning.</Description>
         <Version>0.2.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <PackageId>AeiouContent</PackageId>
-        <Authors>AeiouContent</Authors>
+        <Authors>juanjp600</Authors>
         <Company>AeiouContent</Company>
         <Product>AeiouContent</Product>
         <ImplicitUsings>disable</ImplicitUsings>
@@ -84,6 +84,16 @@
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
       <Exec Command="dotnet publish ../SpeakServer/SpeakServer.csproj -c Release --self-contained -r win-x86 /p:Platform=AnyCPU -o $(OutDir)" />
+      <Exec Command="del &quot;$(OutDir)Assembly-CSharp.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)CWChat.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)Photon3Unity3D.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)PhotonRealtime.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)PhotonUnityNetworking.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)Unity.TextMeshPro.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)UnityEngine.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)UnityEngine.AudioModule.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)UnityEngine.CoreModule.dll&quot;" />
+      <Exec Command="del &quot;$(OutDir)Zorro.Core.Runtime.dll&quot;" />
     </Target>
 
 </Project>
