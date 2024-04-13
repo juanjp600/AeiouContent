@@ -6,6 +6,11 @@ DECtalk text-to-speech in Content Warning.
 
 ## Install instructions
 
+- Get the latest version of [R2ModMan](https://thunderstore.io/package/ebkr/r2modman/).
+- Set it up, and find the latest version of [AeiouContent](https://thunderstore.io/c/content-warning/p/juanjp600/AeiouContent/) on Thunderstore.
+
+## Manual install instructions
+
 - Install the [SimpleChat](https://thunderstore.io/c/content-warning/p/maysunrise/SimpleChat/) mod.
 - Go to the [Releases page](https://github.com/juanjp600/AeiouContent/releases) and download the latest version. The filename will be something along the lines of `juanjp600-AeiouCompany-*.zip`.
 - Extract the downloaded file into its own folder in your `BepInEx/plugins` folder.
@@ -22,3 +27,4 @@ DECtalk text-to-speech in Content Warning.
 - ArbiterBibendi for creating [AEIOUCompany](https://github.com/ArbiterBibendi/AEIOUCompany/), which I used as a base to create this mod.
 - maysunrise for creating [SimpleChat](https://thunderstore.io/c/content-warning/p/maysunrise/SimpleChat/), which this mod hooks into.
 - [its_soupgirl](https://www.youtube.com/@its_soupgirl) for making the icon for this mod.
+- [kylerifqi](https://github.com/kylerifqi) for reporting a bug caused by Steam Audio being removed from the game.
