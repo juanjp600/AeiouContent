@@ -128,7 +128,9 @@ sealed class SpeakProcessOwner
         }
         while (true)
         {
-            if (GetState() is not { } currentState
+            if (!selfState.OutPipe.IsConnected
+                || !selfState.InPipe.IsConnected
+                ||GetState() is not { } currentState
                 || !currentState.Equals(selfState))
             {
                 break;
